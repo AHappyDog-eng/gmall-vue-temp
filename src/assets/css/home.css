@@ -1,0 +1,29 @@
+.tab-bar-item {
+  flex: 1;
+  text-align: center;
+  height: 49px;
+  background-color: #f6f6f6;
+  font-size: 14px;
+}
+
+.tab-bar-item img {
+  width: 24px;
+  height: 24px;
+  margin-top: 3px;
+  margin-bottom: 2px;
+  /*消除图片下面的3px的位置*/
+  vertical-align: middle;
+}
+#tab-bar {
+  display: flex;
+  position: fixed;
+  /*left right 占据整个屏幕*/
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  box-shadow: 0px -3px 1px rgba(100,100,100,0.1);
+}
+.active {
+  color: #1296db;
+}
