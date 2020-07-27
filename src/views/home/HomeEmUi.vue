@@ -1,16 +1,18 @@
 <template>
   <div id="home">
-    <!--导航栏-->
     <nav-bar-all-in class="nav-home">
       <div slot="nav-bar-all-in-center">蘑菇街</div>
     </nav-bar-all-in>
-   <swiper>
-     <swiper-item v-for="item in banner">
-       <a :href="item.link">
-         <img :src="item.image">
-       </a>
-     </swiper-item>
-   </swiper>
+    <div class="nav-swiper">
+      <el-carousel indicator-position="outside" :height="bannerHeight + 'px'">
+        <el-carousel-item v-for="item in banner" :key="item">
+          <!--link -->
+          <a :href="item.link">
+            <img :src="item.image"/>
+          </a>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
   </div>
 
 </template>
@@ -19,18 +21,24 @@
   import NavBarAllIn from 'components/common/navbar/NavBarAllIn'
   /*用大括号是因为 getHomeMultiData 没有 module.export 如果导出了就不要用大括号*/
   import {getHomeMultiData} from 'network/home'
-  import {Swiper,SwiperItem} from 'components/common/swiper/index'
+
   export default {
-    name: "Home",
-    components: {Swiper, NavBarAllIn,SwiperItem},
+    name: "HomeEmUi",
+    components: {NavBarAllIn},
     data() {
       return {
         banner: [],
         recommend: [],
+        bannerHeight: 5000,
+        // 浏览器宽度
+        screenWidth: 0,
       }
     },
     methods: {
-
+      setSize() {
+        // 通过浏览器宽度(图片宽度)计算高度
+        this.bannerHeight = 900 / 1920 * this.screenWidth;
+      }
     },
     /*声明周期函数 组件创建完立即发送网络请求*/
     created() {
@@ -43,6 +51,15 @@
       })
     },
     mounted() {
+      // 页面解析成html页面后进行 dom调节
+      // 首次加载时,需要调用一次
+      this.screenWidth = window.innerWidth;
+      this.setSize();
+      // 窗口大小发生改变时,调用一次
+      window.onresize = () => {
+        this.screenWidth = window.innerWidth;
+        this.setSize();
+      }
     }
   }
 </script>
